@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import CartModule from "./cart";
 
 Vue.use(Vuex);
 const baseUrl = "http://localhost:3500";
@@ -19,9 +20,11 @@ for (let i = 1; i <= 10; i++) {
 
 export default new Vuex.Store({
   strict: true,
+  modules: { cart: CartModule },
   state: {
-    products: testData,
-    productsTotal: testData.length,
+    products: [],
+    categoriesData: [],
+    productsTotal: 0,
     currentPage: 1,
     pageSize: 4,
     currentCategory: "All"
@@ -71,5 +74,4 @@ export default new Vuex.Store({
       context.commit("setData", { pdata, cdata });
     }
   },
-  modules: {}
 });

@@ -7,22 +7,29 @@
           {{ p.price | currency }}
         </span>
       </h4>
-      <div class="card-text bg-white p-1">{{ p.description }}</div>
+      <div class="card-text bg-white p-1">
+        {{ p.description }}
+        <button
+          class="btn btn-success btn-sm float-right"
+          v-on:click="handleProductAdd(p)"
+        >
+          Add To Cart
+        </button>
+      </div>
     </div>
-      <page-controls/>
+    <page-controls />
   </div>
 </template>
 
 <script>
-import { mapState,mapGetters } from "vuex";
+import { mapState, mapGetters, mapMutations } from "vuex";
 import PageControls from "./PageControls";
 export default {
   name: "ProductList",
-    components: { PageControls },
+  components: { PageControls },
   computed: {
     ...mapState(["products"]),
-      ...mapGetters({ products: "processedProducts" })
-
+    ...mapGetters({ products: "processedProducts" })
   },
   filters: {
     currency(value) {
@@ -30,6 +37,13 @@ export default {
         style: "currency",
         currency: "USD"
       }).format(value);
+    }
+  },
+  methods: {
+    ...mapMutations({ addProduct: "cart/addProduct" }),
+    handleProductAdd(product) {
+      this.addProduct(product);
+      this.$router.push("/cart");
     }
   }
 };
