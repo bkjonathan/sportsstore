@@ -1,14 +1,21 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
+
 
 Vue.use(VueRouter);
 
+let store = ()=>import("../components/Store");
+let shoppingCart = ()=>import("../components/ShoppingCart");
 const routes = [
   {
     path: "/",
-    name: "home",
-    component: Home
+    name: "Home",
+    component: store
+  },
+  {
+    path: "/Cart",
+    name: "cart",
+    component: shoppingCart
   },
   {
     path: "/about",
@@ -18,7 +25,7 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/About.vue")
-  }
+  },
 ];
 
 const router = new VueRouter({
