@@ -2,6 +2,9 @@ import Vue from "vue";
 import Vuex from "vuex";
 
 Vue.use(Vuex);
+const baseUrl = "http://localhost:3500";
+const productsUrl = `${baseUrl}/products`;
+const categoriesUrl = `${baseUrl}/categories`;
 
 const testData = [];
 for (let i = 1; i <= 10; i++) {
@@ -54,8 +57,19 @@ export default new Vuex.Store({
     setCurrentCategory(state, category) {
       state.currentCategory = category;
       state.currentPage = 1;
+    },
+    setData(state, data) {
+      state.products = data.pdata;
+      state.productsTotal = data.pdata.length;
+      state.categoriesData = data.cdata.sort();
     }
   },
-  actions: {},
+  actions: {
+    async getData(context) {
+      let pdata = (await window.axios.get(productsUrl)).data;
+      let cdata = (await window.axios.get(categoriesUrl)).data;
+      context.commit("setData", { pdata, cdata });
+    }
+  },
   modules: {}
 });
